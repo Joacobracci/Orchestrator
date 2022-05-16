@@ -1,0 +1,66 @@
+{% extends './base.html' %}
+<html lang="en" class="h-100">
+
+{%block title%}Robots{% endblock %}
+
+{%block customCSS%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/robots.css') }}">
+
+{% endblock %}
+{%block body%}
+<body class="d-flex h-100 text-center text-white bg-dark">
+    
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start mb-0">Orchestrator</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a class="nav-link" aria-current="page" href="{{ url_for('home')}}">Home</a>
+            <a class="nav-link" href="{{ url_for('dashboard')}}">Dashboard</a>
+            <a class="nav-link" href="{{ url_for('robots')}}">Robots</a>
+            <a class="nav-link" href="{{ url_for('status')}}">Status  </a>
+            <a class="nav-link active" href="{{ url_for('reports')}}">Reports  </a>
+            <a class="nav-link btn-info" href="{{ url_for('logout')}}">Logout</a>
+          </nav>
+        </div>
+      </header>
+    
+      <table class="table table-striped table-dark">
+        <thead>
+        <tr>
+        {% for header in headings %}
+          <th scope="col">{{header}}</th>
+        {% endfor %}
+        </tr>
+        </thead>
+        <tbody></tbody>
+        {% for report in current_user.reports %}
+        <tr>
+          <td>{{report.id}}</td>
+          <td>{{report.reportname}}</td>
+          <td>{{report.date}}</td>
+          <td>{{report.robot.robotname}}</td>
+          <td>
+            <a href="{{ url_for('report', id=report.id)}}" class="btn btn-sm btn-info">
+              <div style="height:100%;width:100%">
+                View Logs!
+              </div>
+            </a>
+          </td>
+          
+        
+        </tr>
+        {% endfor %}
+        </tbody>
+        
+      </table>
+    
+      <footer class="mt-auto text-white-50">
+        <p>Desde VR4, para nuestros clientes.</p>
+      </footer>
+      
+       
+    </div>
+
+
+{% endblock %}

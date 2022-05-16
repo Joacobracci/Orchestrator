@@ -1,0 +1,45 @@
+{% extends './base.html' %}
+<html lang="en" class="h-100">
+
+{%block title%}Home{% endblock %}
+
+{%block customCSS%}
+<link rel="stylesheet" href="{{url_for('static',filename='css/home.css') }}">
+
+{% endblock %}
+{%block body%}
+<body class="d-flex h-100 text-center text-white bg-dark">
+    
+    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+      <header class="mb-auto">
+        <div>
+          <h3 class="float-md-start mb-0">Orchestrator</h3>
+          <nav class="nav nav-masthead justify-content-center float-md-end">
+            <a class="nav-link" aria-current="page" href="{{ url_for('home')}}">Home</a>
+            <a class="nav-link" href="{{ url_for('dashboard')}}">Dashboard</a>
+            <a class="nav-link" href="{{ url_for('robots')}}">Robots</a>
+            <a class="nav-link active" href="{{ url_for('status')}}">Status  </a>
+            <a class="nav-link" href="{{ url_for('reports')}}">Reports  </a>
+            <a class="nav-link btn-info" href="{{ url_for('logout')}}">Logout</a>
+          </nav>
+        </div>
+      </header>
+    
+      <main class="px-3">
+       
+        <h1>El siguiente robot a ejecutar es : {{current_robot_name}} </h1>
+        <p class="lead">El Status de ejecucion es {{current_user.status.currentStatus}}</p>
+        <p class="lead">
+          <a href="{{ url_for('dashboard')}}" class="w-50 btn btn-lg btn-info">Dashboard</a>
+        </p>
+      </main>
+    
+      <footer class="mt-auto text-white-50">
+        <p>Desde VR4, para nuestros clientes.</p>
+      </footer>
+      
+       
+    </div>
+
+
+{% endblock %}

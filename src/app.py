@@ -32,7 +32,7 @@ csrf = CSRFProtect()
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
-] = "mysql+pymysql://root:rootPassword@localhost/dbteststatus"
+] = "mysql+pymysql://root:root@localhost/sys"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 db = SQLAlchemy(app)
@@ -60,6 +60,7 @@ class Robot(db.Model):
     robotname = db.Column(db.String(45))
     description = db.Column(db.String(45))
     status = db.Column(db.String(45))
+    path = db.Column(db.String(90))
     user_id = db.Column(db.Integer , db.ForeignKey('user.id'))
     reports = db.relationship("Report", backref="robot", lazy="select")
 
@@ -122,6 +123,14 @@ class LogSchema(ma.Schema):
 log_schema = LogSchema()
 logs_schema = LogSchema(many=True)
 
+
+class StatusSchema(ma.Schema):
+    class Meta:
+        fields = ("id", "currentStatus", "user_id")
+
+
+status_schema = StatusSchema()
+
 ############################### SQUEMAS FROM DB ###############################
 
 ############################### LOGIN MANAGER ###############################
@@ -135,13 +144,6 @@ def load_user(id):
 
 ############################### LOGIN MANAGER ###############################
 
-class statusSchema(ma.Schema):
-    class Meta:
-        fields = ("id", "currentStatus", "user_id")
-
-
-status_schema = statusSchema()
-
 ############################### ROUTES ###############################
 
 @app.route("/api/getStatus", methods=["GET"])
@@ -150,19 +152,6 @@ def get_status():
     return status_schema.jsonify(actualstatus)
 
 
-@app.route("/api/changeStatus/<newStatus>", methods=["PUT"])
-@csrf.exempt
-def update_status(newStatus):
-
-    actualstatus = Status.query.get(1)
-    print(actualstatus)
-    print(newStatus)
-
-    actualstatus.currentStatus = newStatus
-
-    db.session.commit()
-
-    return status_schema.jsonify(actualstatus)
 
 
 @app.route("/")
@@ -328,10 +317,15 @@ def status():
     )
 
 
-@app.route("/protected")
+
+
+@app.route("/editRobots/<string:id>")
 @login_required
-def protected():
+def editRobots(id):
     return "<h1>esta es una vista protegida , solo para usuarios auth </h1>"
+
+
+
 
 ############################### ROUTES ###############################
 
@@ -386,16 +380,38 @@ def getRobotId(robotname,user_id):
     robot = Robot.query.filter_by(robotname=robotname,user_id=user_id).first()
     return jsonify({"robot Id" : robot.id})
 
-
-#Api para obtener el path del siguiente robot.
-@app.route("/api/getNextRobot/" , methods=['GET'])
+#API TEST
+@app.route("/api/getStatuz/" , methods=['GET'])
 @csrf.exempt
-def getNextRobot():
-
-    robotStatus = request.json['status']
+def getStatuz():
+    
     user_id = request.json['user_id']
-    robot = Robot.query.filter_by(status=robotStatus, user_id=user_id).first()
-    return jsonify({"Robot Path to execute" : robot.status})
+
+    user = User.query.filter_by(id=user_id).first()
+    robotCount = 0
+    for robot in user.robots:
+        robotCount = robotCount + 1
+
+
+    statusObject = Status.query.filter_by(user_id=user_id).first()
+    currentStatus = statusObject.currentStatus
+
+    robot = Robot.query.filter_by(status=currentStatus, user_id=user_id).first()
+ 
+
+    if (int(currentStatus)) >= robotCount: 
+        startOver = "1"
+        statusObject.currentStatus = startOver
+        db.session.commit()
+        return jsonify({"Current Status" : currentStatus , "Robot a Ejecutar" : robot.robotname , "Path": robot.path , "New Status" : startOver})
+    else:
+            
+        newStatus = int(currentStatus) + 1
+        strNewStatus = str(newStatus)
+        statusObject.currentStatus = strNewStatus
+        db.session.commit()
+        return jsonify({"Current Status" : currentStatus , "Robot a Ejecutar" : robot.robotname , "Path": robot.path , "New Status" : strNewStatus})
+
 
 ############################### API ROUTES ###############################
 

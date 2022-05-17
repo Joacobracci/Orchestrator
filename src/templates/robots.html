@@ -25,7 +25,7 @@
         </div>
       </header>
     
-      <table class="table table-striped table-dark">
+      <table class="table table-striped table-dark ">
         <thead>
         <tr>
         {% for header in headings %}
@@ -33,9 +33,10 @@
         {% endfor %}
         </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
         {% for robot in current_user.robots %}
         <tr>
+          
           <td>{{robot.id}}</td>
           <td>{{robot.robotname}}</td>
           <td>{{robot.description}}</td>
@@ -53,6 +54,32 @@
         </tbody>
         
       </table>
+
+      <body>
+
+        <div class="container">
+            <div class="card">
+                <div class="imgBx">
+                    <img src="static/img/robot.png" alt="nike-air-shoe">
+                </div>
+    
+                <div class="contentBx">
+    
+                    <h2>Adquirir otro Bot</h2>
+    
+                    <a href="https://www.vr4it.com">Buy Now</a>
+
+                </div>
+                
+            </div>
+        
+      </div>
+
+    
+    </body>
+
+    
+    
     
       <footer class="mt-auto text-white-50">
         <p>Desde VR4, para nuestros clientes.</p>

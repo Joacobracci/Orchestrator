@@ -4,7 +4,7 @@
 {%block title%}Reports{% endblock %}
 
 {%block customCSS%}
-<link rel="stylesheet" href="{{url_for('static',filename='css/home.css') }}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/report.css') }}">
 
 {% endblock %}
 {%block body%}
@@ -27,10 +27,11 @@
     
       <main class="px-3">
        
-        <h1>Reporte :  {{ report.reportname }}</h1>
-        <table class="table table-striped table-dark">
+        <h3>Reporte de procesamiento :  {{ report.reportname }}</h1>
+          <br>
+        <table class="table table-dark">
           <thead>
-          <tr>
+          <tr> 
           {% for header in headings %}
             <th scope="col">{{header}}</th>
           {% endfor %}
@@ -38,14 +39,28 @@
           </thead>
           <tbody></tbody>
           {% for log in report.logs %}
-          <tr>
-            <td>{{log.id}}</td>
-            <td>{{log.flow}}</td>
-            <td>{{log.message}}</td>
-            <td>{{log.status}}</td>
-            <td>{{log.time}}</td>
-            <td>{{log.report.robot.robotname}}</td>
-          </tr>
+          
+            {% if log.status == "Ok" %}
+            <tr>
+              <td>{{log.id}}</td>
+              <td>{{log.flow}}</td>
+              <td>{{log.message}}</td>
+                  <td>{{log.time}}</td>
+                  <td class="bg-success">{{log.status}}</td>
+                  <td>{{log.report.robot.robotname}}</td>
+            </tr>
+              
+              {% else %}
+                <tr>
+                  <td>{{log.id}}</td>
+                  <td>{{log.flow}}</td>
+                  <td>{{log.message}}</td>
+                  <td>{{log.time}}</td>
+                  <td class="bg-danger">{{log.status}}</td>
+                  <td>{{log.report.robot.robotname}}</td>
+                </tr>
+              {% endif %}
+                
           {% endfor %}
           </tbody>
           

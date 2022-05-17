@@ -264,8 +264,8 @@ def report(id):
          "#",
          "Flow",
          "Message",
-         "Status",
          "Time",
+         "Status",
          "Robot Name",
      )
     report = Report.query.get_or_404(id)

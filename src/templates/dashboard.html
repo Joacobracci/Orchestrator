@@ -4,42 +4,188 @@
 {%block title%}Dashboard{% endblock %}
 
 {%block customCSS%}
-<link rel="stylesheet" href="{{url_for('static',filename='css/home.css') }}">
+<link rel="stylesheet" href="{{url_for('static',filename='css/dashboard.css') }}">
 
 {% endblock %}
 {%block body%}
+
+
 <body class="d-flex h-100 text-center text-white bg-dark">
+  
+  <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+      <div>
+        <h3 class="float-md-start mb-0">Orchestrator</h3>
+        
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+          <a class="nav-link" aria-current="page" href="{{ url_for('home')}}">Home</a>
+          <a class="nav-link active" href="{{ url_for('dashboard')}}">Dashboard</a>
+          <a class="nav-link" href="{{ url_for('robots')}}">Robots</a>
+          <a class="nav-link" href="{{ url_for('status')}}">Status</a>
+          <a class="nav-link" href="{{ url_for('reports')}}">Reports </a>
+          <a class="nav-link btn-info" href="{{ url_for('logout')}}">Logout</a>
+        </nav>
+      </div>
+    </header>
     
-    <div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
-      <header class="mb-auto">
-        <div>
-          <h3 class="float-md-start mb-0">Orchestrator</h3>
-          <nav class="nav nav-masthead justify-content-center float-md-end">
-            <a class="nav-link" aria-current="page" href="{{ url_for('home')}}">Home</a>
-            <a class="nav-link active" href="{{ url_for('dashboard')}}">Dashboard</a>
-            <a class="nav-link" href="{{ url_for('robots')}}">Robots</a>
-            <a class="nav-link" href="{{ url_for('status')}}">Status</a>
-            <a class="nav-link" href="{{ url_for('reports')}}">Reports  </a>
-            <a class="nav-link btn-info" href="{{ url_for('logout')}}">Logout</a>
-          </nav>
-        </div>
-      </header>
-    
-      <main class="px-3">
-       
-        <h1>Dashboard de , {{ current_user.company }}</h1>
-        <p class="lead">Coming soon!.......</p>
-        <p class="lead">
-          <a href="#" class="w-50 btn btn-lg btn-info">Dashboard</a>
-        </p>
-      </main>
-    
-      <footer class="mt-auto text-white-50">
-        <p>Desde VR4, para nuestros clientes.</p>
-      </footer>
+    <div class="container">                      
+      <h1>Dashboard de , {{ current_user.company }}</h1>
+      <br>
       
-       
-    </div>
+      <div class="row">
+          <div class="col">
+              <div class="timeline-steps aos-init aos-animate" data-aos="fade-up">
+                  <div class="timeline-step">
+                      <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2003">
+                          <div class="inner-circle"></div>
+                          <p class="h6 mt-3 mb-1">Dic 2022</p>
+                          <p class="h6 text-muted mb-0 mb-lg-0">Idea y Planificacion</p>
+                      </div>
+                  </div>
+                  <div class="timeline-step">
+                      <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2004">
+                          <div class="inner-circle"></div>
+                          <p class="h6 mt-3 mb-1">Enero 2022</p>
+                          <p class="h6 text-muted mb-0 mb-lg-0">Primeros Acercamientos</p>
+                      </div>
+                  </div>
+                  <div class="timeline-step">
+                      <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2005">
+                          <div class="inner-circle"></div>
+                          <p class="h6 mt-3 mb-1">Marzo 2022</p>
+                          <p class="h6 text-muted mb-0 mb-lg-0">Producto Base Terminado</p>
+                      </div>
+                  </div>
+                  <div class="timeline-step">
+                      <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2010">
+                          <div class="inner-circle"></div>
+                          <p class="h6 mt-3 mb-1">Julio 2022</p>
+                          <p class="h6 text-muted mb-0 mb-lg-0">Fase Beta Terminada</p>
+                      </div>
+                  </div>
+                  <div class="timeline-step mb-0">
+                      <div class="timeline-content" data-toggle="popover" data-trigger="hover" data-placement="top" title="" data-content="And here's some amazing content. It's very engaging. Right?" data-original-title="2020">
+                          <div class="inner-circle"></div>
+                          <p class="h6 mt-3 mb-1">Noviembre 2022</p>
+                          <p class="h6 text-muted mb-0 mb-lg-0">Producto Operativo</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+
+      
+
+      <div class="graficos">
+        <div class="pie animate no-round" style="--p:80;--c:rgb(15, 215, 105);"> 80%</div>
+        
+        <div class="pie animate no-round" style="--p:40;--c:rgba(242, 0, 0, 0.984);"> 40%</div>
+          
+        <div class="pie animate no-round" style="--p:20;--c:rgb(249, 236, 5);"> 20%</div>
+      </div>
+
+      
+    </body>
+    <body>
+      <div class="main-container">
+        <div class="year-stats">
+          <div class="month-group">
+            <div class="bar h-100"></div>
+            <p class="month">Jan</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-50"></div>
+            <p class="month">Feb</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-75"></div>
+            <p class="month">Mar</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-25"></div>
+            <p class="month">Apr</p>
+          </div>
+          <div class="month-group selected">
+            <div class="bar h-100"></div>
+            <p class="month">May</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-50"></div>
+            <p class="month">Jun</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-75"></div>
+            <p class="month">Jul</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-25"></div>
+            <p class="month">Aug</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-50"></div>
+            <p class="month">Sep</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-75"></div>
+            <p class="month">Oct</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-25"></div>
+            <p class="month">Nov</p>
+          </div>
+          <div class="month-group">
+            <div class="bar h-100"></div>
+            <p class="month">Dez</p>
+          </div>
+        </div>
+    
+        <div class="stats-info">
+          <div class="graph-container">
+            <div class="percent">
+              <svg viewBox="0 0 36 36" class="circular-chart">
+                <path class="circle" stroke-dasharray="100, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke-dasharray="35, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke-dasharray="60, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831" />
+                <path class="circle" stroke-dasharray="90, 100" d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831" />
+              </svg>
+            </div>
+            <p>Total: 250hs</p>
+          </div>
+    
+          <div class="info">
+            <p>Mejor Robot del Mes <br /><span>Robot Test 1</span></p>
+            <p>Items Procesados : <span>2484</span></p>
+            <p>Errores Obtenidos : <span>2</span></p>
+          </div>
+        </div>
+      </div>
+    </body>
+    
+  </div>    
+  
+  <footer class="mt-auto text-white-50">
+  <p>Desde VR4, para nuestros clientes.</p>
+  </footer>
+
+        
 
 
-{% endblock %}
+  {% endblock %}

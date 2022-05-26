@@ -1,5 +1,6 @@
 from datetime import date
 import json
+from socket import SocketIO, socket
 from flask import (
     Flask,
     render_template,
@@ -22,13 +23,16 @@ from flask_login import (
     login_required,
     user_logged_in,
 )
+from numpy import broadcast
 from werkzeug.security import check_password_hash
 from functions.function_jwt import write_token
+from flask_socketio import SocketIO,send
 
 
 
 app = Flask(__name__)
 csrf = CSRFProtect()
+socketio = SocketIO(app)
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
@@ -318,7 +322,6 @@ def status():
 
 
 
-
 @app.route("/editRobots/<string:id>")
 @login_required
 def editRobots(id):
@@ -328,6 +331,40 @@ def editRobots(id):
 
 
 ############################### ROUTES ###############################
+
+############################### WEB SOCKETS ###############################
+
+# import websockets
+# import asyncio
+
+# async def echo(websocket, path):
+#     print("cliente connectado")
+#     async for message in websockets:<
+#         print("mensaje recibido del cliente")
+#         await websockets.send("back Xd")
+
+# start_server = (websockets.serve(echo, "localhost",7777))
+# asyncio.get_event_loop().run_until_complete(start_server)
+# asyncio.get_event_loop().run_forever()
+
+
+@socketio.on("message")
+def handleMessage(msg):
+    print(msg)  
+    if msg == "Procesando":
+        print("Recivido el procesando")
+    else:
+        send(msg, broadcast=True)
+
+
+
+
+
+
+
+
+
+############################### WEB SOCKETS ###############################
 
 ############################### API ROUTES ###############################
 
@@ -380,7 +417,7 @@ def getRobotId(robotname,user_id):
     robot = Robot.query.filter_by(robotname=robotname,user_id=user_id).first()
     return jsonify({"robot Id" : robot.id})
 
-#API TEST
+#API para obtener el status , el path del siguiente robot a ejecutar, el nombre y actualiza al siguiente status.
 @app.route("/api/getStatuz/" , methods=['GET'])
 @csrf.exempt
 def getStatuz():
@@ -429,7 +466,9 @@ def status_404(error):
 if __name__ == "__main__":
     csrf.init_app(app)
     app.config["SECRET_KEY"] = "12345"
+
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
 
-    app.run(debug=True, port="7777")
+    socketio.run(app)
+    #app.run(debug=True, port="7777")

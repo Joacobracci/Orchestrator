@@ -5,7 +5,38 @@
 
 {%block customCSS%}
 <link rel="stylesheet" href="{{url_for('static',filename='css/robots.css') }}">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.8/socket.io.min.js"></script>
+  
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script type="text/javascript">
 
+
+
+  $(document).ready(function() {
+    
+    var socket = io.connect("http://127.0.0.1:5000");
+
+      socket.on("connect", function(){
+        socket.send("user has connected");
+      });
+
+      socket.on("message", function(msg){
+        $("#messages").append("<li>" + msg+"</li>")
+        console.log("received message");
+        console.log(msg)
+
+      });
+
+    $("#sendbutton").on("click", function() {
+      socket.send($("#myMessage").val());
+      $("myMessage").val("");
+    });
+
+  });
+
+
+
+</script>
 {% endblock %}
 {%block body%}
 <body class="d-flex h-100 text-center text-white bg-dark">
@@ -41,6 +72,7 @@
           <td>{{robot.robotname}}</td>
           <td>{{robot.description}}</td>
           <td>{{robot.status}}</td>
+        
 
           <td>
             <a href="{{url_for('robotReports', id=robot.id)}}" class="btn btn-sm btn-info">
@@ -48,6 +80,10 @@
                 View Reports!
               </div>
             </a>
+          </td>
+          <td>
+            <input type="hidden" id="myMessage" value="Trigger">
+            <button id="sendbutton">Play</button>
           </td>
         </tr>
         {% endfor %}
@@ -75,7 +111,6 @@
         
       </div>
 
-    
     </body>
 
     

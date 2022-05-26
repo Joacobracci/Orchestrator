@@ -458,7 +458,10 @@ def status_404(error):
 
 if __name__ == "__main__":
     csrf.init_app(app)
-    app.config["SECRET_KEY"] = "12345"
+    app.config.update(dict(
+        SECRET_KEY="12345",
+        WTF_CSRF_SECRET_KEY="a csrf secret key"
+    ))
 
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)

@@ -31,7 +31,7 @@ from flask_socketio import SocketIO,send
 
 
 app = Flask(__name__)
-csrf = CSRFProtect()
+csrf = CSRFProtect(app)
 socketio = SocketIO(app)
 
 app.config[

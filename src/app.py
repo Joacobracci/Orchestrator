@@ -25,7 +25,7 @@ from flask_login import (
 )
 from numpy import broadcast
 from werkzeug.security import check_password_hash
-from functions.function_jwt import write_token
+#from functions.function_jwt import write_token
 from flask_socketio import SocketIO,send
 
 
@@ -156,8 +156,6 @@ def get_status():
     return status_schema.jsonify(actualstatus)
 
 
-
-
 @app.route("/")
 def index():
     return redirect(url_for("login"))
@@ -196,7 +194,6 @@ def login():
 #            return render_template("auth/login.html")
 #    else:
 #        return render_template("auth/login.html")
-
 
 @app.route("/logout")
 def logout():
@@ -355,10 +352,6 @@ def handleMessage(msg):
         print("Recivido el procesando")
     else:
         send(msg, broadcast=True)
-
-
-
-
 
 
 

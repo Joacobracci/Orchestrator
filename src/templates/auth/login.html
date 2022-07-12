@@ -24,8 +24,8 @@
       {% endif %}
 
       {% endwith %}
-
       <h1 class="h3 mb-3 fw-normal">Ingrese sus datos</h1>
+      <input type="hidden" name='csrf_token' value="{{ csrf_token() }}">
       <div class="form-floating">
         <input type="text" class="form-control" name="username" placeholder="Username">
         <label for="username">Username</label>

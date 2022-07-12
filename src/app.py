@@ -32,7 +32,7 @@ from flask_socketio import SocketIO,send
 
 app = Flask(__name__)
 csrf = CSRFProtect(app)
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 app.config[
     "SQLALCHEMY_DATABASE_URI"
@@ -355,8 +355,6 @@ def handleMessage(msg):
 
 
 
-
-
 ############################### WEB SOCKETS ###############################
 
 ############################### API ROUTES ###############################
@@ -394,6 +392,19 @@ def createLog():
     db.session.commit()
 
     return log_schema.jsonify(new_log)
+
+
+
+#Api para obtener algo template:
+
+#@app.route("/api/getTemplate/<int:data>", methods=['GET'])
+#@csrf.exempt
+#def getTemplate(data):
+#    for i in i :
+#        user= User.query.filter_by(data=data).first()
+#        user.company(get_id)
+#        print("Executed Template")
+#        return jsonify({"data " : data})
 
 #API para obtener el id de usuario teniendo el nombre de la company
 @app.route("/api/getUserId/<string:company>" , methods=['GET'])
